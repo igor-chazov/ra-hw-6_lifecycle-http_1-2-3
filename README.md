@@ -2,7 +2,7 @@
 
 # 6. Домашнее задание к лекции «Жизненный цикл и работа с HTTP»
 
-[[GithubPages](https://igor-chazov.github.io/ra-hw-6_lifecycle-http_1-2-3)]
+[![Build status](https://ci.appveyor.com/api/projects/status/i9lie2wg3t5yhh7k?svg=true)](https://ci.appveyor.com/project/igor-chazov/ra-hw-6-lifecycle-http-1-2-3) [[GithubPages](https://igor-chazov.github.io/ra-hw-6_lifecycle-http_1-2-3)]
 
 ---
 
