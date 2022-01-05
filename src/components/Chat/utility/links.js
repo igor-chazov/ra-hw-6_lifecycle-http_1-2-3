@@ -5,7 +5,7 @@ if (url.hostname === 'localhost') {
 }
 
 if (url.hostname === 'igor-chazov.github.io') {
-  url.hostname = 'ra-hw-6_lifecycle-http_3-chat-backend.herokuapp.com';
+  url.hostname = 'ra-6-lifecycle-3-chat-backend.herokuapp.com';
   url.protocol = 'https';
 }
 
