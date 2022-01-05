@@ -1,0 +1,14 @@
+.watches {
+  padding: 1rem 0;
+}
+
+.watches__form {
+  margin: 0 auto 1rem auto;
+}
+
+.watches__items {
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+}

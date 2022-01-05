@@ -1,70 +1,141 @@
-# Getting Started with Create React App
+<a name="top"></a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 6. Домашнее задание к лекции «Жизненный цикл и работа с HTTP»
 
-## Available Scripts
+[[GithubPages](https://igor-chazov.github.io/ra-hw-6_lifecycle-http_1-2-3)]
 
-In the project directory, you can run:
+---
 
-### `npm start`
+**Перейти к:**  
+***[6.2 CRUD](#6.2)  
+[6.3 Чат*](#6.3)***
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 6.1 Мировые часы
 
-### `npm test`
+Наверняка вы видели в офисах многих компаний, установленные часы, показывающие время в разных столицах мира:
+* New York
+* Moscow
+* London
+* Tokyo 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+И т.д.
 
-### `npm run build`
+![Watches](./assets/watches.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Общая механика:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Вы заполняете поля название и временная зона (указываете смещение в часах относительно Гринвича) и нажимаете кнопку "Добавить"
+1. Часы автоматически добавляются и (что самое важное) часы начинают "тикать", т.е. отсчитываются секунды, минуты и часы
+1. При нажатии на крестик рядом с часами часы автоматически удаляются, при этом все подписки (`setTimeout`, `setInterval` и другие) должны вычищаться в соответствующем методе жизненного цикла
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Упрощения: если вам сложно реализовать механику со стрелками (через css - см. `transform` и `rotate()`), то вы можете сделать цифровые часы, где отображаются только цифры в формате: ЧЧ:ММ:СС
 
-### `npm run eject`
+Подсказки:
+1. Посмотреть текущий TimezoneOffset вы можете используя объект `Date`
+1. Можете использовать библиотеку momentjs.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## <a name="6.2">6.2 CRUD</a>
+***[(наверх)](#top)***
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Вам необходимо реализовать базовый CRUD (без обновления) при работе с HTTP.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Backend вы можете либо написать сами, либо взять готовый (из каталога `backend`).
 
-## Learn More
+![CRUD](./assets/crud.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Общая механика
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Первоначальная загрузка: делается http-запрос GET на адрес http://localhost:7777/notes, полученные данные отображаются в виде карточек с возможностью удаления
 
-### Code Splitting
+Добавление:
+1. Вы заполняете форму и нажимаете кнопку "Добавить"
+1. Выполняется http-запрос POST на адрес http://localhost:7777/notes, в теле запроса передаётся следующий JSON:
+```json
+{
+    "id": 0,
+    "content": "То, что было введно в поле ввода"
+}
+```
+3. После чего делается запрос на получение всех записей и происходит обновление списка (GET http://localhost:7777/notes).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Удаление:
+1. Вы нажимаете на крестик на одной из карточек
+1. Выполняется http-запрос DELETE на адрес http://localhost:7777/notes/{id} (где id - это идентификатор заметки)
+1. После чего делается запрос на получение всех записей и происходит обновление списка (GET http://localhost:7777/notes).
 
-### Analyzing the Bundle Size
+Обновление:
+1. Вы нажимаете на кнопку обновить (две зелёные стрелочки)
+1. После чего делается запрос на получение всех записей и происходит обновление списка (GET http://localhost:7777/notes).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## <a name="6.3">6.3 Чат*</a>
+***[(наверх)](#top)***
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Вам необходимо реализовать абсолютно анонимный чат (такого, конечн,о не бывает ☺), в который сможет отправлять сообщения любой желающий.
 
-### Advanced Configuration
+Но есть важное требование: если вы даже открыли другую вкладку в браузере (написание всё равно должно идти с вашего аккаунта).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Backend вы можете взять готовый (из каталога `backend`).
 
-### Deployment
+![Chat](./assets/chat.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Общая механика
 
-### `npm run build` fails to minify
+При создании компонента создаётся интервал или таймаут и делается периодический опрос сервера (временной интервал предложите сами) в виде http-запроса GET на адрес http://localhost:7777/messages?from={id}, где id - идентификатор последнего полученного сообщения (при первоначальной загрузке - 0).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Формат присылаемых данных:
+```json
+[
+    {
+        "id": 1,
+        "userId": "5f2d9da0-f624-4309-a598-8ba35d6c4bb6",
+        "content": "Какая сейчас погода за окном?"
+    },
+    {
+        "id": 2,
+        "userId": "5f2d9da0-f624-4309-a598-8ba35d6c4bb6",
+        "content": "К сожалению, я не знаю ответа на этот вопрос"
+    },
+]
+```
+Где userId - уникальный идентификатор анонимного пользователя. Подумайте, как его сгенерировать и где хранить (если не придумали - прочитайте спойлеры).
+
+Полученные данные отображаются в виде блоков с возможностью различным выравниванием:
+* ваши - справа
+* не ваши - слева
+
+Ваши или не ваши вы определяете путём сравнения своего userId и того, что в сообщении.
+
+Добавление:
+1. Вы заполняете форму и нажимаете кнопку "Добавить"
+1. Выполняется http-запрос POST на адрес http://localhost:7777/messages, в теле запроса передаётся следующий JSON:
+```json
+{
+    "id": 0,
+    "userId": "5f2d9da0-f624-4309-a598-8ba35d6c4bb6",
+    "content": "То, что было введно в поле ввода"
+}
+```
+3. После чего ждёте, пока не произойдёт получение данных по интервалу. Подумайте, как сделать ожидание комфортным для пользователя, и как решают эту проблему существующие чаты.
+
+<details>
+  <summary>Спойлеры</summary>
+  
+  Добиться уникальности "анонимов" можно просто записав в local/sessionStorage случайно сгенерированный id (nanoid, uuid). И использовать его для отправки и получения данных.
+
+  Подумайте, какие уязвимости в безопасности создаёт подобная схема, и возможна ли отправка сообщений от лица другого пользователя?
+
+  Подумайте над тем, как это можно предотвратить?
+</details>
+
+## Advanced
+
+1. Попробуйте раскрашивать сообщения от разных пользователей в разные цвета.
+1. Попробуйте реализовать авто-скроллинг до последнего сообщения.
+
+---
